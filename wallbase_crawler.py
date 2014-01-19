@@ -13,23 +13,34 @@ user_agents = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:8.0.1) Gecko/20100101 Firefox/8.0.1',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.151 Safari/535.19'
 ]
-baseurl = "http://wallbase.cc/collection/29053"
-headers = { 'User-Agent' : random.choice(user_agents) }
-dir = "/Users/usuario/Pictures/wallpapers-mac/wallpaper"
 
+# Wallbase's URL to crawl and download Wallpapers
+baseurls =[ 
+
+    "http://wallbase.cc/collection/29053",
+    "http://wallbase.cc/collection/70744"
+
+]
+headers = { 'User-Agent' : random.choice(user_agents) }
+dir = "/Users/usuario/Pictures/wallpapers-mac/wallpaper" #Local folder to store images
+
+#Based in an Url , get the data
 def get_data(baseurl):
     r = requests.get(baseurl, headers=headers)
     data = r.text
     soup = BeautifulSoup(data)
     return soup
 
+#Crawl the previous data
 def crawl_data (soup):
     for link in soup.find_all('a', target="_blank"):
         url = link.get('href')
         cortado = url.split("/")
-        urlf = "http://wallpapers.wallbase.cc/rozne/wallpaper-" +cortado[4] + ".jpg"
-        urllib.urlretrieve(urlf, dir +cortado[4] + ".jpg")
-    
+        if cortado[3] == "wallpaper": 
+            urlf = "http://wallpapers.wallbase.cc/rozne/wallpaper-" +cortado[4] + ".jpg"
+            urllib.urlretrieve(urlf, dir +cortado[4] + ".jpg")
 
-origen = get_data(baseurl)
-crawl_data(origen)    
+    
+for urls in baseurls:    
+    origen = get_data(urls)
+    crawl_data(origen)    
