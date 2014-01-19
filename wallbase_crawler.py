@@ -17,22 +17,19 @@ baseurl = "http://wallbase.cc/collection/29053"
 headers = { 'User-Agent' : random.choice(user_agents) }
 dir = "/Users/usuario/Pictures/wallpapers-mac/wallpaper"
 
-def GetData(baseurl):
-
+def get_data(baseurl):
     r = requests.get(baseurl, headers=headers)
-
     data = r.text
-    
     soup = BeautifulSoup(data)
-
     return soup
 
-def CrawlData (soup):
+def crawl_data (soup):
     for link in soup.find_all('a', target="_blank"):
         url = link.get('href')
         cortado = url.split("/")
         urlf = "http://wallpapers.wallbase.cc/rozne/wallpaper-" +cortado[4] + ".jpg"
         urllib.urlretrieve(urlf, dir +cortado[4] + ".jpg")
     
-origen = GetData(baseurl)
-CrawlData(origen)    
+
+origen = get_data(baseurl)
+crawl_data(origen)    
