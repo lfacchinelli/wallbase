@@ -30,10 +30,9 @@ def GetData(baseurl):
 def CrawlData (soup):
     for link in soup.find_all('a', target="_blank"):
         url = link.get('href')
-        print url
-    '''    cortado = url.split("/")
+        cortado = url.split("/")
         urlf = "http://wallpapers.wallbase.cc/rozne/wallpaper-" +cortado[4] + ".jpg"
         urllib.urlretrieve(urlf, dir +cortado[4] + ".jpg")
-    '''
+    
 origen = GetData(baseurl)
 CrawlData(origen)    
