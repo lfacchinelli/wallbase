@@ -41,8 +41,8 @@ def crawl_data (soup):
         cortado = url.split("/")
         if cortado[3] == "wallpaper" and path.exists(folder + cortado[4] + ".jpg") == False :
             urlf = "http://wallpapers.wallbase.cc/rozne/wallpaper-" +cortado[4] + ".jpg"
-    #        urllib.urlretrieve(urlf, folder + cortado[4] + ".jpg")
-            print urlf
+            urllib.urlretrieve(urlf, folder + cortado[4] + ".jpg")
+    
     
 for urls in baseurls:    
     origen = get_data(urls)
