@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 import urllib
 import random
-
-user_agents = [
+from os import path
+USER_AGENTS = [
     'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
     'Opera/9.25 (Windows NT 5.1; U; en)',
     'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
@@ -18,28 +18,31 @@ user_agents = [
 baseurls =[ 
 
     "http://wallbase.cc/collection/29053",
-    "http://wallbase.cc/collection/70744"
-
+    "http://wallbase.cc/collection/70744",
+    "http://wallbase.cc/collection/77811",
+    "http://wallbase.cc/collection/34385",
+    "http://wallbase.cc/collection/3184"
+    
 ]
-headers = { 'User-Agent' : random.choice(user_agents) }
-dir = "/Users/usuario/Pictures/wallpapers-mac/wallpaper" #Local folder to store images
+HEADERS = { 'User-Agent' : random.choice(USER_AGENTS) }
+folder = "/Users/usuario/Pictures/wallpapers-mac/wallpaper" #Local folder to store images
 
 #Based in an Url , get the data
 def get_data(baseurl):
-    r = requests.get(baseurl, headers=headers)
+    r = requests.get(baseurl, headers=HEADERS)
     data = r.text
     soup = BeautifulSoup(data)
     return soup
 
-#Crawl the previous data
+#Crawl the previous data and download each wallpaper (if not exist previosluy)
 def crawl_data (soup):
     for link in soup.find_all('a', target="_blank"):
         url = link.get('href')
         cortado = url.split("/")
-        if cortado[3] == "wallpaper": 
+        if cortado[3] == "wallpaper" and path.exists(folder + cortado[4] + ".jpg") == False :
             urlf = "http://wallpapers.wallbase.cc/rozne/wallpaper-" +cortado[4] + ".jpg"
-            urllib.urlretrieve(urlf, dir +cortado[4] + ".jpg")
-
+    #        urllib.urlretrieve(urlf, folder + cortado[4] + ".jpg")
+            print urlf
     
 for urls in baseurls:    
     origen = get_data(urls)
