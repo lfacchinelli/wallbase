@@ -39,11 +39,11 @@ def crawl_data (soup):
     for link in soup.find_all('a', target="_blank"):
         url = link.get('href')
         cortado = url.split("/")
-        if cortado[3] == "wallpaper" and path.exists(folder + cortado[4] + ".jpg") == False :
+        if cortado[3] == "wallpaper" and not path.exists(folder + cortado[4] + ".jpg")
             urlf = "http://wallpapers.wallbase.cc/rozne/wallpaper-" +cortado[4] + ".jpg"
             urllib.urlretrieve(urlf, folder + cortado[4] + ".jpg")
     
     
 for urls in baseurls:    
     origen = get_data(urls)
-    crawl_data(origen)    
+    crawl_data(origen)  
