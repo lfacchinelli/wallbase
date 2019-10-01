@@ -17,7 +17,7 @@ USER_AGENTS = [
 # Wallbase's URL to crawl and download Wallpapers
 baseurls =[ 
 
-    "https://wallhaven.cc/search?q=london&page=2"
+    "http://wallhaven.cc/search?q=london&page=2"
     
 ]
 HEADERS = { 'User-Agent' : random.choice(USER_AGENTS) }
@@ -36,9 +36,9 @@ def crawl_data (soup):
         url = link.get('href')
         cortado = url.split("/")
         if cortado[2] == "wallhaven.cc":
-            urla = "https://w.wallhaven.cc/full/" + cortado[4][:2] + "/wallhaven-" + cortado[4] +".jpg"
-            print urllib.urlretrieve(urla, folder + cortado[4] + ".jpg")
-    
+            urla = "http://w.wallhaven.cc/full/" + cortado[4][:2] + "/wallhaven-" + cortado[4] +".jpg"
+            with open(folder + cortado[4] + ".jpg", 'wb') as f:
+                f.write(requests.get(urla).content)
     
 for urls in baseurls:    
     origen = get_data(urls)
