@@ -17,21 +17,17 @@ USER_AGENTS = [
 # Wallbase's URL to crawl and download Wallpapers
 baseurls =[ 
 
-    "http://wallbase.cc/collection/29053",
-    "http://wallbase.cc/collection/70744",
-    "http://wallbase.cc/collection/77811",
-    "http://wallbase.cc/collection/34385",
-    "http://wallbase.cc/collection/3184"
+    "http://wallhaven.cc/search?q=london&page=2"
     
 ]
 HEADERS = { 'User-Agent' : random.choice(USER_AGENTS) }
-folder = "/Users/usuario/Pictures/wallpapers-mac/wallpaper" #Local folder to store images
+folder = "/Users/lucianofacchinelli/Documents/wallbase/" #Local folder to store images
 
 #Based in an Url , get the data
 def get_data(baseurl):
     r = requests.get(baseurl, headers=HEADERS)
     data = r.text
-    soup = BeautifulSoup(data)
+    soup = BeautifulSoup(data,features="html.parser")
     return soup
 
 #Crawl the previous data and download each wallpaper (if not exist previosluy)
@@ -39,10 +35,10 @@ def crawl_data (soup):
     for link in soup.find_all('a', target="_blank"):
         url = link.get('href')
         cortado = url.split("/")
-        if cortado[3] == "wallpaper" and path.exists(folder + cortado[4] + ".jpg") == False :
-            urlf = "http://wallpapers.wallbase.cc/rozne/wallpaper-" +cortado[4] + ".jpg"
-            urllib.urlretrieve(urlf, folder + cortado[4] + ".jpg")
-    
+        if cortado[2] == "wallhaven.cc":
+            urla = "http://w.wallhaven.cc/full/" + cortado[4][:2] + "/wallhaven-" + cortado[4] +".jpg"
+            with open(folder + cortado[4] + ".jpg", 'wb') as f:
+                f.write(requests.get(urla).content)
     
 for urls in baseurls:    
     origen = get_data(urls)
