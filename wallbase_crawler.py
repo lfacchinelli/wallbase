@@ -14,12 +14,7 @@ USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.151 Safari/535.19'
 ]
 
-# Wallbase's URL to crawl and download Wallpapers
-baseurls =[ 
-
-    "http://wallhaven.cc/search?q=london&page=2"
-    
-]
+# Wallbase's URL to crawl and download Wallpaper
 HEADERS = { 'User-Agent' : random.choice(USER_AGENTS) }
 folder = "/Users/lucianofacchinelli/Documents/wallbase/" #Local folder to store images
 
